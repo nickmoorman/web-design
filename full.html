@@ -32,76 +32,93 @@
                 height: 10%;
             }
         </style>
+
+        <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="js/handlebars-1.0.rc.1.js"></script>
     </head>
     <body>
-        <div class="container-fluid" id="div1">
-            <div class="row-fluid">
-                <div class="content offset2 span10">
-                    Hello.
-                </div>
-                <div class="button-row offset2 span10">
-                    <div class="row-fluid">
-                        <button class="btn btn-primary offset8 span2 nav-button" data-scroll-target="#div2">Next</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid" id="div2">
-            <div class="row-fluid">
-                <div class="content offset2 span10">
-                    Hello again.
-                </div>
-                <div class="button-row offset2 span10">
-                    <div class="row-fluid">
-                        <button class="btn btn-primary span2 nav-button" data-scroll-target="#div1">Back</button>
-                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
-                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div3">Next</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid" id="div3">
-            <div class="row-fluid">
-                <div class="content offset2 span10">
-                    Hi!
-                </div>
-                <div class="button-row offset2 span10">
-                    <div class="row-fluid">
-                        <button class="btn btn-primary span2 nav-button" data-scroll-target="#div2">Back</button>
-                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
-                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div4">Next</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid" id="div4">
-            <div class="row-fluid">
-                <div class="content offset2 span10">
-                    Bye!
-                </div>
-                <div class="button-row offset2 span10">
-                    <div class="row-fluid">
-                        <button class="btn btn-primary span2 nav-button" data-scroll-target="#div3">Back</button>
-                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript">
-        // Automatically size each container-fluid to the screen's height
-        $(".container-fluid").each(function(index) {
-            $(this).height($(window).height())
-        });
+        <script type="text/javascript">
+            // based on: https://gist.github.com/1048968
+            Handlebars.registerHelper("iterate", function(array, options) {
+                var buffer = "";
+                for (var i = 0, j = array.length; i < j; i++) {
+                    var item = array[i];
 
-        // Scrolling mechanism borrowed from here: http://stackoverflow.com/a/6677069/212982
-        $(".nav-button").each(function(index) {
-            $(this).click(function(e) {
-                $('html, body').animate({
-                    scrollTop: $($(e.target).data("scrollTarget")).offset().top
-                }, 1000);
+                    // stick an index property onto the item, starting with 1, may make configurable later
+                    item.index = i+1;
+
+                    // set indexes for the items before and after this one
+                    item.before = i;
+                    item.after = i+2;
+
+                    // set helpers for page positions
+                    item.isFirst = i == 0;
+                    item.notFirst = i != 0;
+                    item.notLast = i != j-1;
+
+                    // show the inside of the block
+                    buffer += options.fn(item);
+                }
+
+                // return the finished buffer
+                return buffer;
             });
-        });
-    </script>
+
+            var source = "{{#iterate pages}}";
+            source += '<div class="container-fluid" id="{{id}}{{index}}">';
+            source += '<div class="row-fluid">';
+            source += '<div class="content offset2 span10">';
+            source += '{{content}}';
+            source += '</div><!-- content -->';
+            source += '<div class="button-row offset2 span10">';
+            source += '<div class="row-fluid">';
+            source += '{{#if notFirst}}<button class="btn btn-primary span2 nav-button" data-scroll-target="#{{id}}{{before}}">Back</button>{{/if}}';
+            source += '{{#if notFirst}}<button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#{{id}}1">Home</button>{{/if}}';
+            source += '{{#if notLast}}<button class="btn btn-primary offset{{#if isFirst}}8{{else}}2{{/if}} span2 nav-button" data-scroll-target="#{{id}}{{after}}">Next</button>{{/if}}';
+            source += '</div><!-- row-fluid -->';
+            source += '</div><!-- button-row -->';
+            source += '</div><!-- row-fluid -->';
+            source += '</div><!-- container-fluid -->';
+            source += '{{/iterate}}';
+
+            var data = {
+                "pages": [
+                    {
+                        "id": "div",
+                        "content": "Hello."
+                    },
+                    {
+                        "id": "div",
+                        "content": "Hello again."
+                    },
+                    {
+                        "id": "div",
+                        "content": "Hi!"
+                    },
+                    {
+                        "id": "div",
+                        "content": "Bye!"
+                    }
+                ]
+            };
+
+            var template = Handlebars.compile(source);
+            var result = template(data);
+            document.write(result);
+
+            // Automatically size each container-fluid to the screen's height
+            $(".container-fluid").each(function(index) {
+                $(this).height($(window).height())
+            });
+
+            // Scrolling mechanism borrowed from here: http://stackoverflow.com/a/6677069/212982
+            $(".nav-button").each(function(index) {
+                $(this).click(function(e) {
+                    $('html, body').animate({
+                        scrollTop: $($(e.target).data("scrollTarget")).offset().top
+                    }, 1000);
+                });
+            });
+        </script>
+    </body>
 <html>
