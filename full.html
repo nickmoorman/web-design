@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Titillium+Web" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" media="screen" />
+        <style type="text/css">
+            body {
+                width: 100%;
+                /* Background image borrowed from backbone.js */
+                background: transparent url(img/background.png);
+                margin: 0;
+            }
+            #div2, #div4 {
+                background: white;
+            }
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            .row {
+                height: 100%;
+            }
+            .content {
+                height: 90%;
+                font-family: 'Titillium Web', sans-serif;
+                font-size: 30px;
+            }
+            .button-row {
+                height: 10%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container" id="div1">
+            <div class="row">
+                <div class="content offset2 span10">
+                    Hello.
+                </div>
+                <div class="button-row offset2 span10">
+                    <div class="row">
+                        <button class="btn btn-primary offset8 span2 nav-button" data-scroll-target="#div2">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="div2">
+            <div class="row">
+                <div class="content offset2 span10">
+                    Hello again.
+                </div>
+                <div class="button-row offset2 span10">
+                    <div class="row">
+                        <button class="btn btn-primary span2 nav-button" data-scroll-target="#div1">Back</button>
+                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
+                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div3">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="div3">
+            <div class="row">
+                <div class="content offset2 span10">
+                    Hi!
+                </div>
+                <div class="button-row offset2 span10">
+                    <div class="row">
+                        <button class="btn btn-primary span2 nav-button" data-scroll-target="#div2">Back</button>
+                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
+                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div4">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="div4">
+            <div class="row">
+                <div class="content offset2 span10">
+                    Bye!
+                </div>
+                <div class="button-row offset2 span10">
+                    <div class="row">
+                        <button class="btn btn-primary span2 nav-button" data-scroll-target="#div3">Back</button>
+                        <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        // Automatically size each container to the screen's height
+        $(".container").each(function(index) {
+            $(this).height($(window).height())
+        });
+
+        // Scrolling mechanism borrowed from here: http://stackoverflow.com/a/6677069/212982
+        $(".nav-button").each(function(index) {
+            $(this).click(function(e) {
+                $('html, body').animate({
+                    scrollTop: $($(e.target).data("scrollTarget")).offset().top
+                }, 1000);
+            });
+        });
+    </script>
+<html>
