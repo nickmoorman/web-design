@@ -16,11 +16,11 @@
             #div2, #div4 {
                 background: white;
             }
-            .container {
+            .container-fluid {
                 width: 100%;
                 padding: 10px;
             }
-            .row {
+            .row-fluid {
                 height: 100%;
             }
             .content {
@@ -34,25 +34,25 @@
         </style>
     </head>
     <body>
-        <div class="container" id="div1">
-            <div class="row">
+        <div class="container-fluid" id="div1">
+            <div class="row-fluid">
                 <div class="content offset2 span10">
                     Hello.
                 </div>
                 <div class="button-row offset2 span10">
-                    <div class="row">
+                    <div class="row-fluid">
                         <button class="btn btn-primary offset8 span2 nav-button" data-scroll-target="#div2">Next</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container" id="div2">
-            <div class="row">
+        <div class="container-fluid" id="div2">
+            <div class="row-fluid">
                 <div class="content offset2 span10">
                     Hello again.
                 </div>
                 <div class="button-row offset2 span10">
-                    <div class="row">
+                    <div class="row-fluid">
                         <button class="btn btn-primary span2 nav-button" data-scroll-target="#div1">Back</button>
                         <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
                         <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div3">Next</button>
@@ -60,13 +60,13 @@
                 </div>
             </div>
         </div>
-        <div class="container" id="div3">
-            <div class="row">
+        <div class="container-fluid" id="div3">
+            <div class="row-fluid">
                 <div class="content offset2 span10">
                     Hi!
                 </div>
                 <div class="button-row offset2 span10">
-                    <div class="row">
+                    <div class="row-fluid">
                         <button class="btn btn-primary span2 nav-button" data-scroll-target="#div2">Back</button>
                         <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
                         <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div4">Next</button>
@@ -74,13 +74,13 @@
                 </div>
             </div>
         </div>
-        <div class="container" id="div4">
-            <div class="row">
+        <div class="container-fluid" id="div4">
+            <div class="row-fluid">
                 <div class="content offset2 span10">
                     Bye!
                 </div>
                 <div class="button-row offset2 span10">
-                    <div class="row">
+                    <div class="row-fluid">
                         <button class="btn btn-primary span2 nav-button" data-scroll-target="#div3">Back</button>
                         <button class="btn btn-primary offset2 span2 nav-button" data-scroll-target="#div1">Home</button>
                     </div>
@@ -90,8 +90,8 @@
     </body>
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript">
-        // Automatically size each container to the screen's height
-        $(".container").each(function(index) {
+        // Automatically size each container-fluid to the screen's height
+        $(".container-fluid").each(function(index) {
             $(this).height($(window).height())
         });
 
